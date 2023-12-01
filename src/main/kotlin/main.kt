@@ -1,8 +1,8 @@
 import utils.ScannerInput
 import java.lang.System.exit
-import java.util.*
 
-val scanner = Scanner(System.`in`)
+
+
 fun main(args: Array<String>) {
     runMenu()
 }
@@ -22,7 +22,6 @@ fun runMenu() {
          > |   0) Exit                      |
          > ----------------------------------
          > ==>> """.trimMargin(">"))
-        return scanner.nextInt()
     }
 
     do {

@@ -1,3 +1,4 @@
+import utils.ScannerInput
 import java.lang.System.exit
 import java.util.*
 
@@ -8,7 +9,7 @@ fun main(args: Array<String>) {
 fun runMenu() {
 
     fun mainMenu() : Int {
-        print(""" 
+        return ScannerInput.readNextInt("""
          > ----------------------------------
          > |        NOTE KEEPER APP         |
          > ----------------------------------

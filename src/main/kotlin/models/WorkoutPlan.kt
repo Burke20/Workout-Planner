@@ -5,7 +5,6 @@ data class WorkoutPlan(
     var workoutDescription: String,
     var workoutDuration: Int,
     var workoutType:Int,
-    var exercises: List<Exercise>,
 
 )
 

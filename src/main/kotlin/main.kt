@@ -1,8 +1,14 @@
+import controllers.WorkoutPlannerAPI
+import models.Exercise
+import models.WorkoutPlan
 import mu.KotlinLogging
 import utils.ScannerInput
+import utils.ScannerInput.readNextInt
+import utils.ScannerInput.readNextLine
 import java.lang.System.exit
+import java.util.*
 
-
+private val workoutPlannerAPI = WorkoutPlannerAPI()
 private val logger = KotlinLogging.logger {}
 fun main(args: Array<String>) {
     runMenu()
@@ -37,8 +43,8 @@ fun runMenu() {
         }
     } while (true)
 }
-fun createWorkoutPlan(){
-    logger.info { "createWorkoutPlan() function invoked" }
+fun createWorkoutPlan() {
+  logger.info {"createWorkoutPlan() function invoked"}
 }
 
 fun listWorkoutPlans(){

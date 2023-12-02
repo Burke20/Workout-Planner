@@ -35,4 +35,22 @@ class WorkoutPlannerAPI {
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
+    fun update(indexToUpdate: Int, workoutPlan: WorkoutPlan?): Boolean {
+        val foundWorkoutPlan = findWorkoutPlan(indexToUpdate)
+        if ((foundWorkoutPlan != null) && (workoutPlan != null)) {
+            foundWorkoutPlan.workoutTitle = workoutPlan.workoutTitle
+            foundWorkoutPlan.workoutDescription = workoutPlan.workoutDescription
+            foundWorkoutPlan.workoutType = workoutPlan.workoutType
+            return true
+        }
+        return false
+    }
+
+    fun deleteWorkoutPlan(indexToDelete: Int): WorkoutPlan? {
+        return if (isValidListIndex(indexToDelete, workoutPlans)) {
+            workoutPlans.removeAt(indexToDelete)
+        } else null
+    }
+
 }

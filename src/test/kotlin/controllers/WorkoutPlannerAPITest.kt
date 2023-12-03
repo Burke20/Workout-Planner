@@ -2,6 +2,7 @@ package controllers
 
 import models.WorkoutPlan
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.assertFalse
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -74,7 +75,7 @@ class WorkoutPlannerAPITest {
         }
     }
     @Nested
-    inner class DeleteNotes {
+    inner class DeleteWorkoutPlans {
         @Test
         fun `deleting a Workout Plan that does not exist, returns null`() {
             Assertions.assertNull(emptyWorkoutPlans!!.deleteWorkoutPlan(0))
@@ -89,6 +90,30 @@ class WorkoutPlannerAPITest {
             Assertions.assertEquals(4, populatedWorkoutPlans!!.numberOfWorkoutPlans())
             assertEquals(fullBodyWorkoutPlan, populatedWorkoutPlans!!.deleteWorkoutPlan(0))
             Assertions.assertEquals(3, populatedWorkoutPlans!!.numberOfWorkoutPlans())
+        }
+    }
+    @Nested
+    inner class UpdateWorkoutPlan {
+        @Test
+        fun `updating a note that does not exist returns false`(){
+            assertFalse(populatedWorkoutPlans!!.update(6, WorkoutPlan("Updating Workout Plan", "Updating Workout Plan", 1, 1)))
+            assertFalse(populatedWorkoutPlans!!.update(-1, WorkoutPlan("Updating Workout Plan", "Updating Workout Plan", 1, 1)))
+            assertFalse(emptyWorkoutPlans!!.update(0, WorkoutPlan("Updating Workout Plan", "Updating Workout Plan", 1,1)))
+        }
+
+        @Test
+        fun `updating a note that exists returns true and updates`() {
+
+            assertEquals(muscleGrowthWorkoutPlan, populatedWorkoutPlans!!.findWorkoutPlan(4))
+            Assertions.assertEquals("Muscle Growth Workout", populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutTitle)
+            Assertions.assertEquals("A workout Based around Building muscle ", populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDescription)
+            Assertions.assertEquals(2, populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDuration)
+
+            //update note 5 with new information and ensure contents updated successfully
+            assertTrue(populatedWorkoutPlans!!.update(4, WorkoutPlan("Muscle Growth Workout", "A workout Based around Building muscle ", 2, 5)))
+            Assertions.assertEquals("Muscle Growth Workout", populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutTitle)
+            Assertions.assertEquals("A workout Based around Building muscle ", populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDescription)
+            Assertions.assertEquals(2, populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDuration)
         }
     }
 }

@@ -155,4 +155,41 @@ class WorkoutPlannerAPITest {
             Assertions.assertEquals(0, emptyWorkoutPlans!!.numberOfWorkoutPlans())
         }
     }
+
+    @Nested
+    inner class SearchMethods {
+
+        @Test
+        fun `search Workout Plans by title returns no Workout Plans when no Workout Plans with that title exist`() {
+
+            Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
+            val searchResults = populatedWorkoutPlans!!.searchByTitle("no results expected")
+            assertTrue(searchResults.isEmpty())
+
+            Assertions.assertEquals(0, emptyWorkoutPlans!!.numberOfWorkoutPlans())
+            assertTrue(emptyWorkoutPlans!!.searchByTitle("").isEmpty())
+        }
+
+        @Test
+        fun `search Workout Plans by title returns Workout Plans when Workout Plans with that title exist`() {
+            Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
+
+
+            var searchResults = populatedWorkoutPlans!!.searchByTitle("Strength Workout")
+            assertTrue(searchResults.contains("Strength Workout"))
+            assertFalse(searchResults.contains("Cardio Workout"))
+
+
+            searchResults = populatedWorkoutPlans!!.searchByTitle("Strength")
+            assertTrue(searchResults.contains("Strength"))
+            assertTrue(searchResults.contains("Strength Workout"))
+            assertFalse(searchResults.contains("Muscle Growth Workout"))
+
+
+            searchResults = populatedWorkoutPlans!!.searchByTitle("wOrKout")
+            assertTrue(searchResults.contains("Strength Workout"))
+            assertTrue(searchResults.contains("Cardio Workout"))
+            assertFalse(searchResults.contains("Muscle Strength"))
+        }
+    }
 }

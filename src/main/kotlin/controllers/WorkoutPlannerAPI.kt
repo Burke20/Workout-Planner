@@ -55,4 +55,13 @@ class WorkoutPlannerAPI {
         } else null
     }
 
+    private fun formatListString(workoutPlansToFormat: List<WorkoutPlan>): String =
+        workoutPlansToFormat
+            .joinToString(separator = "\n") { workoutPlan ->
+                workoutPlans.indexOf(workoutPlan).toString() + ": " + workoutPlan.toString()
+            }
+    fun searchByTitle(searchString: String): String {
+        return formatListString(
+            workoutPlans.filter { note -> note.workoutTitle.contains(searchString, ignoreCase = true) })
+    }
 }

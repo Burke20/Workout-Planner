@@ -35,9 +35,11 @@ class WorkoutPlannerAPI {
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
     fun isValidIndex(index: Int): Boolean {
         return isValidListIndex(index, workoutPlans)
     }
+
     fun update(indexToUpdate: Int, workoutPlan: WorkoutPlan?): Boolean {
         val foundWorkoutPlan = findWorkoutPlan(indexToUpdate)
         if ((foundWorkoutPlan != null) && (workoutPlan != null)) {
@@ -60,8 +62,14 @@ class WorkoutPlannerAPI {
             .joinToString(separator = "\n") { workoutPlan ->
                 workoutPlans.indexOf(workoutPlan).toString() + ": " + workoutPlan.toString()
             }
+
     fun searchByTitle(searchString: String): String {
         return formatListString(
-            workoutPlans.filter { note -> note.workoutTitle.contains(searchString, ignoreCase = true) })
+            workoutPlans.filter { workoutPlan -> workoutPlan.workoutTitle.contains(searchString, ignoreCase = true) })
     }
+    fun searchByDescription(searchString: String): String {
+        return formatListString(
+            workoutPlans.filter { workoutPlan -> workoutPlan.workoutDescription.contains(searchString, ignoreCase = true) })
+    }
+
 }

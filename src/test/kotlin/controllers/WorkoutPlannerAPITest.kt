@@ -54,6 +54,7 @@ class WorkoutPlannerAPITest {
         val newWorkoutPlan = WorkoutPlan("Low Equipment Workout", "Workout using minimal amount of equipment", 2, 6)
         assertTrue(emptyWorkoutPlans!!.create(newWorkoutPlan))
     }
+
     @Nested
     inner class ListWorkoutPlans {
 
@@ -74,6 +75,7 @@ class WorkoutPlannerAPITest {
             assertTrue(workoutPlansString.contains("muscle growth"))
         }
     }
+
     @Nested
     inner class DeleteWorkoutPlans {
         @Test
@@ -92,13 +94,29 @@ class WorkoutPlannerAPITest {
             Assertions.assertEquals(3, populatedWorkoutPlans!!.numberOfWorkoutPlans())
         }
     }
+
     @Nested
     inner class UpdateWorkoutPlan {
         @Test
-        fun `updating a note that does not exist returns false`(){
-            assertFalse(populatedWorkoutPlans!!.update(6, WorkoutPlan("Updating Workout Plan", "Updating Workout Plan", 1, 1)))
-            assertFalse(populatedWorkoutPlans!!.update(-1, WorkoutPlan("Updating Workout Plan", "Updating Workout Plan", 1, 1)))
-            assertFalse(emptyWorkoutPlans!!.update(0, WorkoutPlan("Updating Workout Plan", "Updating Workout Plan", 1,1)))
+        fun `updating a note that does not exist returns false`() {
+            assertFalse(
+                populatedWorkoutPlans!!.update(
+                    6,
+                    WorkoutPlan("Updating Workout Plan", "Updating Workout Plan", 1, 1)
+                )
+            )
+            assertFalse(
+                populatedWorkoutPlans!!.update(
+                    -1,
+                    WorkoutPlan("Updating Workout Plan", "Updating Workout Plan", 1, 1)
+                )
+            )
+            assertFalse(
+                emptyWorkoutPlans!!.update(
+                    0,
+                    WorkoutPlan("Updating Workout Plan", "Updating Workout Plan", 1, 1)
+                )
+            )
         }
 
         @Test
@@ -106,14 +124,35 @@ class WorkoutPlannerAPITest {
 
             assertEquals(muscleGrowthWorkoutPlan, populatedWorkoutPlans!!.findWorkoutPlan(4))
             Assertions.assertEquals("Muscle Growth Workout", populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutTitle)
-            Assertions.assertEquals("A workout Based around Building muscle ", populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDescription)
+            Assertions.assertEquals(
+                "A workout Based around Building muscle ",
+                populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDescription
+            )
             Assertions.assertEquals(2, populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDuration)
 
             //update note 5 with new information and ensure contents updated successfully
-            assertTrue(populatedWorkoutPlans!!.update(4, WorkoutPlan("Muscle Growth Workout", "A workout Based around Building muscle ", 2, 5)))
+            assertTrue(
+                populatedWorkoutPlans!!.update(
+                    4,
+                    WorkoutPlan("Muscle Growth Workout", "A workout Based around Building muscle ", 2, 5)
+                )
+            )
             Assertions.assertEquals("Muscle Growth Workout", populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutTitle)
-            Assertions.assertEquals("A workout Based around Building muscle ", populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDescription)
+            Assertions.assertEquals(
+                "A workout Based around Building muscle ",
+                populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDescription
+            )
             Assertions.assertEquals(2, populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDuration)
+        }
+    }
+
+    @Nested
+    inner class CountingMethods {
+
+        @Test
+        fun numberOfWorkoutPlansCalculatedCorrectly() {
+            Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
+            Assertions.assertEquals(0, emptyWorkoutPlans!!.numberOfWorkoutPlans())
         }
     }
 }

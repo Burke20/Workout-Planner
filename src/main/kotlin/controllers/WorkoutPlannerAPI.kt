@@ -1,8 +1,11 @@
 package controllers
 
+import persistence.Serializer
 import models.WorkoutPlan
 
-class WorkoutPlannerAPI {
+class WorkoutPlannerAPI(serializerType: Serializer){
+
+    private var serializer: Serializer = serializerType
     private var workoutPlans = ArrayList<WorkoutPlan>()
 
     fun create(workoutPlan: WorkoutPlan): Boolean {
@@ -50,6 +53,16 @@ class WorkoutPlannerAPI {
             return true
         }
         return false
+    }
+
+    @Throws(Exception::class)
+    fun load() {
+        workoutPlans = serializer.read() as ArrayList<WorkoutPlan>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(workoutPlans)
     }
 
     fun deleteWorkoutPlan(indexToDelete: Int): WorkoutPlan? {

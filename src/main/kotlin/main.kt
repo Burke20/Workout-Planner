@@ -3,12 +3,14 @@ import controllers.WorkoutPlannerAPI
 import models.Exercise
 import models.WorkoutPlan
 import mu.KotlinLogging
+import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import java.io.File
 import java.lang.System.exit
 
-private val workoutPlannerAPI = WorkoutPlannerAPI()
+private val workoutPlannerAPI = WorkoutPlannerAPI(XMLSerializer(File("WorkoutPlanner.xml")))
 private val logger = KotlinLogging.logger {}
 fun main(args: Array<String>) {
     runMenu()
@@ -29,6 +31,8 @@ fun runMenu() {
          > |   6) Search by Description     |
          > |   7) List Workout Plan Titles  |  
          > ----------------------------------
+         > |   20) Save notes               |
+         > |   21) Load notes               |
          > |   0) Exit                      |
          > ----------------------------------
          > ==>> """.trimMargin(">")
@@ -45,6 +49,8 @@ fun runMenu() {
             5 -> searchWorkoutByTitle("YourSearchTitle")
             6 -> searchWorkoutByDescription("YourSearchDescription")
             7 -> allWorkoutTitles()
+            20 -> save()
+            21 -> load()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -187,6 +193,24 @@ fun allWorkoutTitles() {
     val workoutTitles = workoutPlannerAPI.listAllWorkoutTitles()
     println("Workout Titles:\n$workoutTitles")
 }
+    fun save() {
+        try {
+            workoutPlannerAPI.store()
+        } catch (e: Exception) {
+            System.err.println("Error writing to file: $e")
+        }
+    }
+
+    /**
+     * Loads notes from a file.
+     */
+    fun load() {
+        try {
+            workoutPlannerAPI.load()
+        } catch (e: Exception) {
+            System.err.println("Error reading from file: $e")
+        }
+    }
 fun exitApp() {
     println("Exiting...bye")
     exit(0)

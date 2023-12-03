@@ -2,6 +2,7 @@ package controllers
 
 import models.WorkoutPlan
 import org.junit.jupiter.api.*
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class WorkoutPlannerAPITest {
@@ -70,6 +71,24 @@ class WorkoutPlannerAPITest {
             assertTrue(workoutPlansString.contains("strength"))
             assertTrue(workoutPlansString.contains("cardio"))
             assertTrue(workoutPlansString.contains("muscle growth"))
+        }
+    }
+    @Nested
+    inner class DeleteNotes {
+        @Test
+        fun `deleting a Workout Plan that does not exist, returns null`() {
+            Assertions.assertNull(emptyWorkoutPlans!!.deleteWorkoutPlan(0))
+            Assertions.assertNull(populatedWorkoutPlans!!.deleteWorkoutPlan(-1))
+            Assertions.assertNull(populatedWorkoutPlans!!.deleteWorkoutPlan(5))
+        }
+
+        @Test
+        fun `deleting a Workout Plan that exists delete and returns object`() {
+            Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
+            assertEquals(muscleGrowthWorkoutPlan, populatedWorkoutPlans!!.deleteWorkoutPlan(4))
+            Assertions.assertEquals(4, populatedWorkoutPlans!!.numberOfWorkoutPlans())
+            assertEquals(fullBodyWorkoutPlan, populatedWorkoutPlans!!.deleteWorkoutPlan(0))
+            Assertions.assertEquals(3, populatedWorkoutPlans!!.numberOfWorkoutPlans())
         }
     }
 }

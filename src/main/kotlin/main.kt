@@ -1,12 +1,11 @@
+
 import controllers.WorkoutPlannerAPI
-import models.Exercise
 import models.WorkoutPlan
 import mu.KotlinLogging
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.lang.System.exit
-import java.util.*
 
 private val workoutPlannerAPI = WorkoutPlannerAPI()
 private val logger = KotlinLogging.logger {}
@@ -44,19 +43,53 @@ fun runMenu() {
     } while (true)
 }
 fun createWorkoutPlan() {
-  logger.info {"createWorkoutPlan() function invoked"}
-}
+    val workoutTitle = readNextLine("Enter a title for the Workout: ")
+    val workoutDescription = readNextLine("Enter a Description of your Workout: ")
+    val workoutDuration = readNextInt("Select Duration of the Workout: (1.Short 2.Medium 3.Long) :  ")
+    val workoutType = readNextInt("Enter the Type of workout you want (1.Legs 2.Arms 3.Chest 4.Full Body) : ")
+    val isCreated =
+        workoutPlannerAPI.create(WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType))
 
-fun listWorkoutPlans(){
-    logger.info { "listWorkoutPlans() function invoked" }
+    if (isCreated) {
+        println("Created Successfully")
+    } else {
+        println("Creation Failed")
+    }
 }
-
+fun listWorkoutPlans() {
+    println(workoutPlannerAPI.listAllWorkoutPlans())
+}
 fun updateWorkoutPlans(){
-    logger.info { "updateWorkoutPlans() function invoked" }
-}
+        listWorkoutPlans()
+        if (workoutPlannerAPI.numberOfWorkoutPlans() > 0) {
+            val indexToUpdate = readNextInt("Enter the index of the workout Plan to update: ")
+            if (workoutPlannerAPI.isValidIndex(indexToUpdate)) {
+                val workoutTitle = readNextLine("Enter a title for the Workout Plan: ")
+                val workoutDescription = readNextLine("Enter a Description for the Workout Plan: ")
+                val workoutDuration = readNextInt("Enter a Duration for the Workout (1.Short 2.Medium 3.Long): ")
+                val workoutType = readNextInt("Enter a Workout Type (1.Legs 2.Arms 3.Chest 4.Full Body) ")
+                if (workoutPlannerAPI.update(indexToUpdate, WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType))) {
+                    println("Update Successful")
+                } else {
+                    println("Update Failed")
+                }
+            } else {
+                println("There are no Workout Plans for this index number")
+            }
+        }
+    }
 
-fun deleteWorkoutPlans(){
-    logger.info { "deleteWorkoutPlans() function invoked" }
+fun deleteWorkoutPlans() {
+    listWorkoutPlans()
+    if (workoutPlannerAPI.numberOfWorkoutPlans() > 0) {
+        val indexToDelete = readNextInt("Enter the index of the Workout Plan to delete: ")
+        var workoutPlanToDelete = workoutPlannerAPI.deleteWorkoutPlan(indexToDelete)
+        if (workoutPlanToDelete != null) {
+            println("Delete Successfull! Deleted Workout Plan: ${workoutPlanToDelete.workoutTitle}")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun exitApp(){

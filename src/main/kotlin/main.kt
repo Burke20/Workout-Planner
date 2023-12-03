@@ -14,9 +14,9 @@ fun main(args: Array<String>) {
     runMenu()
 }
 fun runMenu() {
-
-    fun mainMenu() : Int {
-        return ScannerInput.readNextInt("""
+    fun mainMenu(): Int {
+        return ScannerInput.readNextInt(
+            """
          > ----------------------------------
          > |        NOTE KEEPER APP         |
          > ----------------------------------
@@ -31,20 +31,21 @@ fun runMenu() {
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
-         > ==>> """.trimMargin(">"))
+         > ==>> """.trimMargin(">")
+        )
     }
 
     do {
         val option = mainMenu()
         when (option) {
-            1  -> createWorkoutPlan()
-            2  -> listWorkoutPlans()
-            3  -> updateWorkoutPlans()
-            4  -> deleteWorkoutPlans()
-            5  -> searchWorkoutByTitle("YourSearchTitle")
-            6  -> searchWorkoutByDescription("YourSearchDescription")
-            7  -> allWorkoutTitles()
-            0  -> exitApp()
+            1 -> createWorkoutPlan()
+            2 -> listWorkoutPlans()
+            3 -> updateWorkoutPlans()
+            4 -> deleteWorkoutPlans()
+            5 -> searchWorkoutByTitle("YourSearchTitle")
+            6 -> searchWorkoutByDescription("YourSearchDescription")
+            7 -> allWorkoutTitles()
+            0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
     } while (true)
@@ -56,32 +57,38 @@ fun createWorkoutPlan() {
     val workoutType = readNextInt("Enter the Type of workout you want (1.Legs 2.Arms 3.Chest 4.Full Body) : ")
     val exercises = mutableListOf<Exercise>()
     val addExercise = readNextLine("Press Enter to access Exercises ")
-        val exerciseName = readNextLine("Enter the name of the exercise: Select Exercise from List\n" +
-                " Dumbbell Curls\n" +
-                " Sit ups\n" +
-                " Press Ups\n" +
-                " Chin Ups\n" +
-                " Bench Press\n" +
-                " Squats\n" +
-                " Cable curls\n" +
-                " Running\n" +
-                " Walking\n")
-        val exerciseType = readNextLine("Enter the type of the exercise:" +
-                "\n Full Body\n " +
-                "Arms\n " +
-                "Legs" +
-                "\n Cardio" +
-                "\n Low Equipment" +
-                "\n Machines" +
-                "\n Core" +
-                "\n Back\n")
-        val exerciseDuration = readNextLine("Enter the duration of the exercise: \n Short" +
-                "\n Medium" +
-                "\n Long\n")
-        exercises.add(Exercise(exerciseName, exerciseType, exerciseDuration))
+    val exerciseName = readNextLine(
+        "Enter the name of the exercise: Select Exercise from List\n" +
+            " Dumbbell Curls\n" +
+            " Sit ups\n" +
+            " Press Ups\n" +
+            " Chin Ups\n" +
+            " Bench Press\n" +
+            " Squats\n" +
+            " Cable curls\n" +
+            " Running\n" +
+            " Walking\n"
+    )
+    val exerciseType = readNextLine(
+        "Enter the type of the exercise:" +
+            "\n Full Body\n " +
+            "Arms\n " +
+            "Legs" +
+            "\n Cardio" +
+            "\n Low Equipment" +
+            "\n Machines" +
+            "\n Core" +
+            "\n Back\n"
+    )
+    val exerciseDuration = readNextLine(
+        "Enter the duration of the exercise: \n Short" +
+            "\n Medium" +
+            "\n Long\n"
+    )
+    exercises.add(Exercise(exerciseName, exerciseType, exerciseDuration))
 
     val isCreated =
-        workoutPlannerAPI.create(WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType,exercises))
+        workoutPlannerAPI.create(WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType, exercises))
 
     if (isCreated) {
         println("Created Successfully")
@@ -92,51 +99,57 @@ fun createWorkoutPlan() {
 fun listWorkoutPlans() {
     println(workoutPlannerAPI.listAllWorkoutPlans())
 }
-fun updateWorkoutPlans(){
-        listWorkoutPlans()
-        if (workoutPlannerAPI.numberOfWorkoutPlans() > 0) {
-            val indexToUpdate = readNextInt("Enter the index of the workout Plan to update: ")
-            if (workoutPlannerAPI.isValidIndex(indexToUpdate)) {
-                val workoutTitle = readNextLine("Enter a title for the Workout Plan: ")
-                val workoutDescription = readNextLine("Enter a Description for the Workout Plan: ")
-                val workoutDuration = readNextInt("Enter a Duration for the Workout (1.Short 2.Medium 3.Long): ")
-                val workoutType = readNextInt("Enter a Workout Type (1.Legs 2.Arms 3.Chest 4.Full Body) ")
-                val exercises = mutableListOf<Exercise>()
-                val updateExercise = readNextLine("Press Enter to access Exercises ")
-                val exerciseName = readNextLine("Enter the name of the exercise: Select Exercise from List\n" +
-                        " Dumbbell Curls\n" +
-                        " Sit ups\n" +
-                        " Press Ups\n" +
-                        " Chin Ups\n" +
-                        " Bench Press\n" +
-                        " Squats\n" +
-                        " Cable curls\n" +
-                        " Running\n" +
-                        " Walking\n")
-                val exerciseType = readNextLine("Enter the type of the exercise:" +
-                        "\n Full Body\n " +
-                        "Arms\n " +
-                        "Legs" +
-                        "\n Cardio" +
-                        "\n Low Equipment" +
-                        "\n Machines" +
-                        "\n Core" +
-                        "\n Back\n")
-                val exerciseDuration = readNextLine("Enter the duration of the exercise: \n Short" +
-                        "\n Medium" +
-                        "\n Long\n")
-                exercises.add(Exercise(exerciseName, exerciseType, exerciseDuration))
+fun updateWorkoutPlans() {
+    listWorkoutPlans()
+    if (workoutPlannerAPI.numberOfWorkoutPlans() > 0) {
+        val indexToUpdate = readNextInt("Enter the index of the workout Plan to update: ")
+        if (workoutPlannerAPI.isValidIndex(indexToUpdate)) {
+            val workoutTitle = readNextLine("Enter a title for the Workout Plan: ")
+            val workoutDescription = readNextLine("Enter a Description for the Workout Plan: ")
+            val workoutDuration = readNextInt("Enter a Duration for the Workout (1.Short 2.Medium 3.Long): ")
+            val workoutType = readNextInt("Enter a Workout Type (1.Legs 2.Arms 3.Chest 4.Full Body) ")
+            val exercises = mutableListOf<Exercise>()
+            val updateExercise = readNextLine("Press Enter to access Exercises ")
+            val exerciseName = readNextLine(
+                "Enter the name of the exercise: Select Exercise from List\n" +
+                    " Dumbbell Curls\n" +
+                    " Sit ups\n" +
+                    " Press Ups\n" +
+                    " Chin Ups\n" +
+                    " Bench Press\n" +
+                    " Squats\n" +
+                    " Cable curls\n" +
+                    " Running\n" +
+                    " Walking\n"
+            )
+            val exerciseType = readNextLine(
+                "Enter the type of the exercise:" +
+                    "\n Full Body\n " +
+                    "Arms\n " +
+                    "Legs" +
+                    "\n Cardio" +
+                    "\n Low Equipment" +
+                    "\n Machines" +
+                    "\n Core" +
+                    "\n Back\n"
+            )
+            val exerciseDuration = readNextLine(
+                "Enter the duration of the exercise: \n Short" +
+                    "\n Medium" +
+                    "\n Long\n"
+            )
+            exercises.add(Exercise(exerciseName, exerciseType, exerciseDuration))
 
-                if (workoutPlannerAPI.update(indexToUpdate, WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType, exercises))) {
-                    println("Update Successful")
-                } else {
-                    println("Update Failed")
-                }
+            if (workoutPlannerAPI.update(indexToUpdate, WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType, exercises))) {
+                println("Update Successful")
             } else {
-                println("There are no Workout Plans for this index number")
+                println("Update Failed")
             }
+        } else {
+            println("There are no Workout Plans for this index number")
         }
     }
+}
 
 fun deleteWorkoutPlans() {
     listWorkoutPlans()
@@ -174,7 +187,7 @@ fun allWorkoutTitles() {
     val workoutTitles = workoutPlannerAPI.listAllWorkoutTitles()
     println("Workout Titles:\n$workoutTitles")
 }
-fun exitApp(){
+fun exitApp() {
     println("Exiting...bye")
     exit(0)
 }

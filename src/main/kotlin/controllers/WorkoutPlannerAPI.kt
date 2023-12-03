@@ -67,9 +67,21 @@ class WorkoutPlannerAPI {
         return formatListString(
             workoutPlans.filter { workoutPlan -> workoutPlan.workoutTitle.contains(searchString, ignoreCase = true) })
     }
+
     fun searchByDescription(searchString: String): String {
         return formatListString(
-            workoutPlans.filter { workoutPlan -> workoutPlan.workoutDescription.contains(searchString, ignoreCase = true) })
+            workoutPlans.filter { workoutPlan ->
+                workoutPlan.workoutDescription.contains(
+                    searchString,
+                    ignoreCase = true
+                )
+            })
     }
-
+    fun listAllWorkoutTitles(): String {
+        return if (workoutPlans.isEmpty()) {
+            "No workout Plans Stored"
+        } else {
+            workoutPlans.joinToString("\n") { it.workoutTitle }
+        }
+    }
 }

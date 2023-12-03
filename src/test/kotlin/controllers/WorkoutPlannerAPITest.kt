@@ -1,9 +1,7 @@
 package controllers
 
 import models.WorkoutPlan
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 import kotlin.test.assertTrue
 
 class WorkoutPlannerAPITest {
@@ -42,6 +40,7 @@ class WorkoutPlannerAPITest {
         populatedWorkoutPlans = null
         emptyWorkoutPlans = null
     }
+
     @Test
     fun `adding a Workout Plan to a populated list adds to ArrayList`() {
         val newWorkoutPlan = WorkoutPlan("Low Equipment Workout", "Workout using minimal amount of equipment", 2, 6)
@@ -53,5 +52,24 @@ class WorkoutPlannerAPITest {
         val newWorkoutPlan = WorkoutPlan("Low Equipment Workout", "Workout using minimal amount of equipment", 2, 6)
         assertTrue(emptyWorkoutPlans!!.create(newWorkoutPlan))
     }
+    @Nested
+    inner class ListWorkoutPlans {
 
+        @Test
+        fun `listAllWorkoutPlans returns No WorkoutPlans Stored message when ArrayList is empty`() {
+            Assertions.assertEquals(0, emptyWorkoutPlans!!.numberOfWorkoutPlans())
+            assertTrue(emptyWorkoutPlans!!.listAllWorkoutPlans().lowercase().contains("no workout plans"))
+        }
+
+        @Test
+        fun `listAllWorkoutPlans returns WorkoutPlans when ArrayList has Workout Plans Stored stored`() {
+            Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
+            val workoutPlansString = populatedWorkoutPlans!!.listAllWorkoutPlans().lowercase()
+            assertTrue(workoutPlansString.contains("full body"))
+            assertTrue(workoutPlansString.contains("leg day"))
+            assertTrue(workoutPlansString.contains("strength"))
+            assertTrue(workoutPlansString.contains("cardio"))
+            assertTrue(workoutPlansString.contains("muscle growth"))
+        }
+    }
 }

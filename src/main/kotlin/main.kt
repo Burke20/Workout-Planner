@@ -91,7 +91,26 @@ fun deleteWorkoutPlans() {
         }
     }
 }
+fun searchWorkoutByTitle(title: String) {
+    val titleToSearch = readNextLine("Enter the title of the Workout Plan to search: ")
+    val searchResult = workoutPlannerAPI.searchByTitle(titleToSearch)
 
+    if (searchResult.isNotEmpty()) {
+        println(searchResult)
+    } else {
+        println("No search results")
+    }
+}
+fun searchWorkoutByDescription(description: String) {
+    val descriptionToSearch = readNextLine("Enter a Description of the Workout Plan to search: ")
+    val searchResult = workoutPlannerAPI.searchByDescription(descriptionToSearch)
+
+    if (searchResult.isNotEmpty()) {
+        println(searchResult)
+    } else {
+        println("No search results")
+    }
+}
 fun exitApp(){
     println("Exiting...bye")
     exit(0)

@@ -1,5 +1,6 @@
 
 import controllers.WorkoutPlannerAPI
+import models.Exercise
 import models.WorkoutPlan
 import mu.KotlinLogging
 import utils.ScannerInput
@@ -53,8 +54,34 @@ fun createWorkoutPlan() {
     val workoutDescription = readNextLine("Enter a Description of your Workout: ")
     val workoutDuration = readNextInt("Select Duration of the Workout: (1.Short 2.Medium 3.Long) :  ")
     val workoutType = readNextInt("Enter the Type of workout you want (1.Legs 2.Arms 3.Chest 4.Full Body) : ")
+    val exercises = mutableListOf<Exercise>()
+    val addExercise = readNextLine("Press Enter to access Exercises ")
+        val exerciseName = readNextLine("Enter the name of the exercise: Select Exercise from List\n" +
+                " Dumbbell Curls\n" +
+                " Sit ups\n" +
+                " Press Ups\n" +
+                " Chin Ups\n" +
+                " Bench Press\n" +
+                " Squats\n" +
+                " Cable curls\n" +
+                " Running\n" +
+                " Walking\n")
+        val exerciseType = readNextLine("Enter the type of the exercise:" +
+                "\n Full Body\n " +
+                "Arms\n " +
+                "Legs" +
+                "\n Cardio" +
+                "\n Low Equipment" +
+                "\n Machines" +
+                "\n Core" +
+                "\n Back\n")
+        val exerciseDuration = readNextLine("Enter the duration of the exercise: \n Short" +
+                "\n Medium" +
+                "\n Long\n")
+        exercises.add(Exercise(exerciseName, exerciseType, exerciseDuration))
+
     val isCreated =
-        workoutPlannerAPI.create(WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType))
+        workoutPlannerAPI.create(WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType,exercises))
 
     if (isCreated) {
         println("Created Successfully")
@@ -74,7 +101,33 @@ fun updateWorkoutPlans(){
                 val workoutDescription = readNextLine("Enter a Description for the Workout Plan: ")
                 val workoutDuration = readNextInt("Enter a Duration for the Workout (1.Short 2.Medium 3.Long): ")
                 val workoutType = readNextInt("Enter a Workout Type (1.Legs 2.Arms 3.Chest 4.Full Body) ")
-                if (workoutPlannerAPI.update(indexToUpdate, WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType))) {
+                val exercises = mutableListOf<Exercise>()
+                val updateExercise = readNextLine("Press Enter to access Exercises ")
+                val exerciseName = readNextLine("Enter the name of the exercise: Select Exercise from List\n" +
+                        " Dumbbell Curls\n" +
+                        " Sit ups\n" +
+                        " Press Ups\n" +
+                        " Chin Ups\n" +
+                        " Bench Press\n" +
+                        " Squats\n" +
+                        " Cable curls\n" +
+                        " Running\n" +
+                        " Walking\n")
+                val exerciseType = readNextLine("Enter the type of the exercise:" +
+                        "\n Full Body\n " +
+                        "Arms\n " +
+                        "Legs" +
+                        "\n Cardio" +
+                        "\n Low Equipment" +
+                        "\n Machines" +
+                        "\n Core" +
+                        "\n Back\n")
+                val exerciseDuration = readNextLine("Enter the duration of the exercise: \n Short" +
+                        "\n Medium" +
+                        "\n Long\n")
+                exercises.add(Exercise(exerciseName, exerciseType, exerciseDuration))
+
+                if (workoutPlannerAPI.update(indexToUpdate, WorkoutPlan(workoutTitle, workoutDescription, workoutDuration, workoutType, exercises))) {
                     println("Update Successful")
                 } else {
                     println("Update Failed")

@@ -79,7 +79,7 @@ class WorkoutPlannerAPI {
     }
     fun listAllWorkoutTitles(): String {
         return if (workoutPlans.isEmpty()) {
-            "No workout Plans Stored"
+            "No workout Titles "
         } else {
             workoutPlans.joinToString("\n") { it.workoutTitle }
         }

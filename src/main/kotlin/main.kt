@@ -24,6 +24,8 @@ fun runMenu() {
          > |   2) List all Workout Plans    |
          > |   3) Update a Workout Plan     |
          > |   4) Delete a Workout Plan     |
+         > |   5) Search by Title           |
+         > |   6) Search by Description     |  
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -37,6 +39,8 @@ fun runMenu() {
             2  -> listWorkoutPlans()
             3  -> updateWorkoutPlans()
             4  -> deleteWorkoutPlans()
+            5  -> searchWorkoutByTitle("YourSearchTitle")
+            6  -> searchWorkoutByDescription("YourSearchDescription")
             0  -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -91,7 +95,26 @@ fun deleteWorkoutPlans() {
         }
     }
 }
+fun searchWorkoutByTitle(title: String) {
+    val titleToSearch = readNextLine("Enter the title of the Workout Plan to search: ")
+    val searchResult = workoutPlannerAPI.searchByTitle(titleToSearch)
 
+    if (searchResult.isNotEmpty()) {
+        println(searchResult)
+    } else {
+        println("No search results")
+    }
+}
+fun searchWorkoutByDescription(description: String) {
+    val descriptionToSearch = readNextLine("Enter a Description of the Workout Plan to search: ")
+    val searchResult = workoutPlannerAPI.searchByDescription(descriptionToSearch)
+
+    if (searchResult.isNotEmpty()) {
+        println(searchResult)
+    } else {
+        println("No search results")
+    }
+}
 fun exitApp(){
     println("Exiting...bye")
     exit(0)

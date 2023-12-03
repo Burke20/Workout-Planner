@@ -5,7 +5,6 @@ import models.WorkoutPlan
 class WorkoutPlannerAPI {
     private var workoutPlans = ArrayList<WorkoutPlan>()
 
-
     fun create(workoutPlan: WorkoutPlan): Boolean {
         return workoutPlans.add(workoutPlan)
     }
@@ -16,7 +15,7 @@ class WorkoutPlannerAPI {
         } else {
             var listOfWorkoutPlans = ""
             for (i in workoutPlans.indices) {
-                listOfWorkoutPlans += "${i}: ${workoutPlans[i]} \n"
+                listOfWorkoutPlans += "$i: ${workoutPlans[i]} \n"
             }
             listOfWorkoutPlans
         }
@@ -29,7 +28,9 @@ class WorkoutPlannerAPI {
     fun findWorkoutPlan(index: Int): WorkoutPlan? {
         return if (isValidListIndex(index, workoutPlans)) {
             workoutPlans[index]
-        } else null
+        } else {
+            null
+        }
     }
 
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
@@ -54,7 +55,9 @@ class WorkoutPlannerAPI {
     fun deleteWorkoutPlan(indexToDelete: Int): WorkoutPlan? {
         return if (isValidListIndex(indexToDelete, workoutPlans)) {
             workoutPlans.removeAt(indexToDelete)
-        } else null
+        } else {
+            null
+        }
     }
 
     private fun formatListString(workoutPlansToFormat: List<WorkoutPlan>): String =
@@ -65,7 +68,8 @@ class WorkoutPlannerAPI {
 
     fun searchByTitle(searchString: String): String {
         return formatListString(
-            workoutPlans.filter { workoutPlan -> workoutPlan.workoutTitle.contains(searchString, ignoreCase = true) })
+            workoutPlans.filter { workoutPlan -> workoutPlan.workoutTitle.contains(searchString, ignoreCase = true) }
+        )
     }
 
     fun searchByDescription(searchString: String): String {
@@ -75,7 +79,8 @@ class WorkoutPlannerAPI {
                     searchString,
                     ignoreCase = true
                 )
-            })
+            }
+        )
     }
     fun listAllWorkoutTitles(): String {
         return if (workoutPlans.isEmpty()) {

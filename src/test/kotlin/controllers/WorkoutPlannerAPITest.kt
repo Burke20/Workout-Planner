@@ -3,8 +3,8 @@ package controllers
 import models.Exercise
 import models.WorkoutPlan
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.assertFalse
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class WorkoutPlannerAPITest {
@@ -16,21 +16,19 @@ class WorkoutPlannerAPITest {
     private var muscleGrowthWorkoutPlan: WorkoutPlan? = null
     private var populatedWorkoutPlans: WorkoutPlannerAPI? = WorkoutPlannerAPI()
     private var emptyWorkoutPlans: WorkoutPlannerAPI? = WorkoutPlannerAPI()
-    val exercise1 = listOf(Exercise("Bench Press", "Chest", "Short"),)
-    val exercise2 = listOf(Exercise("Dumbell Curls", "Arms", "Short"),)
-    val exercise3 = listOf(Exercise("Pull Ups", "Chest", "Medium"),)
-    val exercise4 = listOf(Exercise("Running", "Cardio", "Long"),)
-    val exercise5 = listOf(Exercise("Squats", "Legs", "Short"),)
-
+    val exercise1 = listOf(Exercise("Bench Press", "Chest", "Short"))
+    val exercise2 = listOf(Exercise("Dumbell Curls", "Arms", "Short"))
+    val exercise3 = listOf(Exercise("Pull Ups", "Chest", "Medium"))
+    val exercise4 = listOf(Exercise("Running", "Cardio", "Long"))
+    val exercise5 = listOf(Exercise("Squats", "Legs", "Short"))
 
     @BeforeEach
     fun setup() {
-        fullBodyWorkoutPlan = WorkoutPlan("Full Body Workout", "Full Body Workout with Light Weights", 2, 1, exercises = exercise1 )
-        legDayWorkoutPlan = WorkoutPlan("Leg Day Workout", "Leg Workout With kettle bells", 2, 2, exercises = exercise2 )
-        strengthWorkoutPlan = WorkoutPlan("Strength Workout", "Workout Aimed to Build Strength", 3, 3, exercises = exercise3 )
-        cardioWorkoutPlan = WorkoutPlan("Cardio Workout", "A cardio Based Workout", 3, 4, exercises = exercise4 )
-        muscleGrowthWorkoutPlan = WorkoutPlan("Muscle Growth Workout", "A workout Based around Building muscle ", 2, 5, exercises = exercise5 )
-
+        fullBodyWorkoutPlan = WorkoutPlan("Full Body Workout", "Full Body Workout with Light Weights", 2, 1, exercises = exercise1)
+        legDayWorkoutPlan = WorkoutPlan("Leg Day Workout", "Leg Workout With kettle bells", 2, 2, exercises = exercise2)
+        strengthWorkoutPlan = WorkoutPlan("Strength Workout", "Workout Aimed to Build Strength", 3, 3, exercises = exercise3)
+        cardioWorkoutPlan = WorkoutPlan("Cardio Workout", "A cardio Based Workout", 3, 4, exercises = exercise4)
+        muscleGrowthWorkoutPlan = WorkoutPlan("Muscle Growth Workout", "A workout Based around Building muscle ", 2, 5, exercises = exercise5)
 
         populatedWorkoutPlans!!.create(fullBodyWorkoutPlan!!)
         populatedWorkoutPlans!!.create(legDayWorkoutPlan!!)
@@ -52,13 +50,13 @@ class WorkoutPlannerAPITest {
 
     @Test
     fun `adding a Workout Plan to a populated list adds to ArrayList`() {
-        val newWorkoutPlan = WorkoutPlan("Low Equipment Workout", "Workout using minimal amount of equipment", 2, 6,  exercises = exercise1)
+        val newWorkoutPlan = WorkoutPlan("Low Equipment Workout", "Workout using minimal amount of equipment", 2, 6, exercises = exercise1)
         assertTrue(populatedWorkoutPlans!!.create(newWorkoutPlan))
     }
 
     @Test
     fun `adding a Workout Plan to an empty list adds to ArrayList`() {
-        val newWorkoutPlan = WorkoutPlan("Low Equipment Workout", "Workout using minimal amount of equipment", 2, 6, exercises = exercise1 )
+        val newWorkoutPlan = WorkoutPlan("Low Equipment Workout", "Workout using minimal amount of equipment", 2, 6, exercises = exercise1)
         assertTrue(emptyWorkoutPlans!!.create(newWorkoutPlan))
     }
 
@@ -70,11 +68,13 @@ class WorkoutPlannerAPITest {
             Assertions.assertEquals(0, emptyWorkoutPlans!!.numberOfWorkoutPlans())
             assertTrue(emptyWorkoutPlans!!.listAllWorkoutPlans().lowercase().contains("no workout plans"))
         }
+
         @Test
         fun `listAllWorkoutTitles returns No Workout Titles Stored message when ArrayList is empty`() {
             Assertions.assertEquals(0, emptyWorkoutPlans!!.numberOfWorkoutPlans())
             assertFalse(emptyWorkoutPlans!!.listAllWorkoutPlans().lowercase().contains("no workout Titles"))
         }
+
         @Test
         fun `listAllWorkoutPlans returns WorkoutPlans when ArrayList has Workout Plans Stored stored`() {
             Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
@@ -85,7 +85,6 @@ class WorkoutPlannerAPITest {
             assertTrue(workoutPlansString.contains("cardio"))
             assertTrue(workoutPlansString.contains("muscle growth"))
         }
-
     }
 
     @Nested
@@ -133,7 +132,6 @@ class WorkoutPlannerAPITest {
 
         @Test
         fun `updating a note that exists returns true and updates`() {
-
             assertEquals(muscleGrowthWorkoutPlan, populatedWorkoutPlans!!.findWorkoutPlan(4))
             Assertions.assertEquals("Muscle Growth Workout", populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutTitle)
             Assertions.assertEquals(
@@ -142,7 +140,7 @@ class WorkoutPlannerAPITest {
             )
             Assertions.assertEquals(2, populatedWorkoutPlans!!.findWorkoutPlan(4)!!.workoutDuration)
 
-            //update note 5 with new information and ensure contents updated successfully
+            // update note 5 with new information and ensure contents updated successfully
             assertTrue(
                 populatedWorkoutPlans!!.update(
                     4,
@@ -173,7 +171,6 @@ class WorkoutPlannerAPITest {
 
         @Test
         fun `search Workout Plans by title returns no Workout Plans when no Workout Plans with that title exist`() {
-
             Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
             val searchResults = populatedWorkoutPlans!!.searchByTitle("no results expected")
             assertTrue(searchResults.isEmpty())
@@ -186,17 +183,14 @@ class WorkoutPlannerAPITest {
         fun `search Workout Plans by title returns Workout Plans when Workout Plans with that title exist`() {
             Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
 
-
             var searchResults = populatedWorkoutPlans!!.searchByTitle("Strength Workout")
             assertTrue(searchResults.contains("Strength Workout"))
             assertFalse(searchResults.contains("Cardio Workout"))
-
 
             searchResults = populatedWorkoutPlans!!.searchByTitle("Strength")
             assertTrue(searchResults.contains("Strength"))
             assertTrue(searchResults.contains("Strength Workout"))
             assertFalse(searchResults.contains("Muscle Growth Workout"))
-
 
             searchResults = populatedWorkoutPlans!!.searchByTitle("wOrKout")
             assertTrue(searchResults.contains("Strength Workout"))
@@ -207,7 +201,6 @@ class WorkoutPlannerAPITest {
 
     @Test
     fun `search Workout Plans by Description returns no Workout Plans when no Workout Plans with that Description exist`() {
-
         Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
         val searchResults = populatedWorkoutPlans!!.searchByDescription("no results expected")
         assertTrue(searchResults.isEmpty())
@@ -220,17 +213,14 @@ class WorkoutPlannerAPITest {
     fun `search Workout Plans by Description returns Workout Plans when Workout Plans with that Description exist`() {
         Assertions.assertEquals(5, populatedWorkoutPlans!!.numberOfWorkoutPlans())
 
-
         var searchResults = populatedWorkoutPlans!!.searchByDescription("Workout Aimed to Build Strength")
         assertTrue(searchResults.contains("Workout Aimed to Build Strength"))
         assertFalse(searchResults.contains("Cardio Workout"))
-
 
         searchResults = populatedWorkoutPlans!!.searchByDescription("Build Strength")
         assertTrue(searchResults.contains("Build Strength"))
         assertTrue(searchResults.contains("Workout Aimed to Build Strength"))
         assertFalse(searchResults.contains("Muscle Growth Workout"))
-
 
         searchResults = populatedWorkoutPlans!!.searchByDescription("bUilD")
         assertTrue(searchResults.contains("Build Strength"))
